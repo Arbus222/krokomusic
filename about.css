@@ -1,0 +1,133 @@
+.about-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+.about-card {
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid var(--border-light);
+    border-radius: 32px;
+    padding: 40px;
+    max-width: 800px;
+    width: 100%;
+}
+
+.back-home {
+    display: inline-block;
+    color: var(--primary-color);
+    text-decoration: none;
+    margin-bottom: 20px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.back-home:hover {
+    color: var(--primary-hover);
+    transform: translateX(-5px);
+}
+
+.about-logo {
+    text-align: center;
+    font-size: 64px;
+    margin-bottom: 20px;
+}
+
+.about-card h1 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.about-card p {
+    color: var(--text-gray);
+    line-height: 1.6;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.about-card h2 {
+    font-size: 22px;
+    margin: 25px 0 15px;
+    color: white;
+}
+
+.about-card ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 10px;
+}
+
+.about-card li {
+    color: var(--text-gray);
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.about-card li:hover {
+    background: rgba(124, 58, 237, 0.1);
+    transform: translateX(5px);
+    transition: 0.3s;
+}
+
+.tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 15px 0;
+}
+
+.tech-item {
+    background: rgba(124, 58, 237, 0.2);
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    border-radius: 30px;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #cbd5e1;
+    transition: 0.3s;
+}
+
+.tech-item:hover {
+    background: rgba(124, 58, 237, 0.4);
+    transform: translateY(-2px);
+}
+
+.about-footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    text-align: center;
+    border-top: 1px solid var(--border-light);
+    color: #6b7280;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .about-card {
+        padding: 25px;
+    }
+    
+    .about-card h1 {
+        font-size: 24px;
+    }
+    
+    .about-card h2 {
+        font-size: 18px;
+    }
+    
+    .about-card ul {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kroko Sound - Музичний плеєр</title>
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="player.css">
+    <link rel="stylesheet" href="playlists.css">
+    <link rel="stylesheet" href="about.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div id="authModal" class="modal-overlay show">
+    <div class="auth-card">
+        <div class="auth-header">
+            <div class="auth-logo">🎵 KROKO SOUND</div>
+            <h2>Ласкаво просимо!</h2>
+            <p>Ваша улюблена музика завжди з вами</p>
+        </div>
+        <div class="auth-benefits">
+            <div class="benefit-item">🎵 Слухайте музику</div>
+            <div class="benefit-item">📁 Плейлисти</div>
+            <div class="benefit-item">❤️ Улюблене</div>
+            <div class="benefit-item">📊 Статистика</div>
+        </div>
+        <div class="auth-tabs">
+            <button class="auth-tab active" data-tab="login">Вхід</button>
+            <button class="auth-tab" data-tab="register">Реєстрація</button>
+        </div>
+        <div id="loginForm" class="auth-form active">
+            <div class="input-group">
+                <label>Логін або Email</label>
+                <input type="text" id="loginInput" placeholder="Введіть логін або email">
+            </div>
+            <div class="input-group">
+                <label>Пароль</label>
+                <input type="password" id="passwordInput" placeholder="Введіть пароль">
+            </div>
+            <button class="auth-btn" id="loginBtn">Увійти</button>
+            <p class="auth-footer">Немає акаунту? <span class="auth-link" data-tab="register">Зареєструватись</span></p>
+        </div>
+        <div id="registerForm" class="auth-form">
+            <div class="input-group">
+                <label>Ім'я</label>
+                <input type="text" id="regName" placeholder="Ваше ім'я">
+            </div>
+            <div class="input-group">
+                <label>Логін</label>
+                <input type="text" id="regLogin" placeholder="Оберіть логін">
+            </div>
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" id="regEmail" placeholder="example@mail.com">
+            </div>
+            <div class="input-group">
+                <label>Пароль</label>
+                <input type="password" id="regPassword" placeholder="Мінімум 4 символи">
+            </div>
+            <div class="input-group">
+                <label>Підтвердження</label>
+                <input type="password" id="regConfirm" placeholder="Повторіть пароль">
+            </div>
+            <div class="input-group">
+                <label>Колір аватарки</label>
+                <div class="avatar-colors">
+                    <div class="avatar-color selected" data-color="#7c3aed" style="background: #7c3aed;"></div>
+                    <div class="avatar-color" data-color="#06b6d4" style="background: #06b6d4;"></div>
+                    <div class="avatar-color" data-color="#10b981" style="background: #10b981;"></div>
+                    <div class="avatar-color" data-color="#f59e0b" style="background: #f59e0b;"></div>
+                    <div class="avatar-color" data-color="#ef4444" style="background: #ef4444;"></div>
+                    <div class="avatar-color" data-color="#f472b6" style="background: #f472b6;"></div>
+                </div>
+            </div>
+            <button class="auth-btn" id="registerBtn">Створити акаунт</button>
+            <p class="auth-footer">Вже є акаунт? <span class="auth-link" data-tab="login">Увійти</span></p>
+        </div>
+    </div>
+</div>
+
+<div id="app" style="display: none;">
+    <header class="top-bar">
+        <div class="logo" id="logoHome">🎵 KROKO SOUND</div>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="🔍 Пошук пісень або виконавців...">
+        </div>
+        <nav class="nav-menu">
+            <a href="#" class="nav-link active" data-page="home">🏠 Головна</a>
+            <a href="#" class="nav-link" data-page="profile">👤 Профіль</a>
+            <a href="#" class="nav-link" data-page="playlists">📁 Плейлисти</a>
+            <a href="#" class="nav-link" data-page="favorites">❤️ Обране</a>
+            <a href="#" class="nav-link" data-page="stats">📊 Статистика</a>
+            <a href="#" class="nav-link" data-page="about">📖 Про проект</a>
+        </nav>
+        <div class="user-info">
+            <div class="avatar" id="userAvatar">👤</div>
+            <span id="userName">Користувач</span>
+            <button class="logout-btn" id="logoutBtn">🚪</button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div id="homePage" class="page active">
+            <div class="banner-carousel" id="bannerCarousel">
+                <div class="banner-container" id="bannerContainer">
+                    <div class="banner-slide active">
+                        <div class="banner-bg" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                        <div class="banner-content-new">
+                            <div class="banner-icon-left">🎵</div>
+                            <div class="banner-text">
+                                <span class="banner-tag">🎧 НЕОБМЕЖЕНА МУЗИКА</span>
+                                <h2>СЛУХАЙ УЛЮБЛЕНЕ</h2>
+                                <h1>БЕЗКОШТОВНО</h1>
+                                <p>Мільйони треків у твоєму телефоні. Без реклами та підписок</p>
+                                <button class="banner-btn-new">🎵 СЛУХАТИ →</button>
+                            </div>
+                            <div class="banner-icon-right">🎧🎶</div>
+                        </div>
+                    </div>
+                    <div class="banner-slide">
+                        <div class="banner-bg" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                        <div class="banner-content-new">
+                            <div class="banner-icon-left">📀</div>
+                            <div class="banner-text">
+                                <span class="banner-tag">📁 ТВОРЧІСТЬ</span>
+                                <h2>СТВОРЮЙ ПЛЕЙЛИСТИ</h2>
+                                <h1>ДЛЯ ВСІХ НАСТРОЇВ</h1>
+                                <p>Збирай улюблені треки в свої добірки та ділися з друзями</p>
+                                <button class="banner-btn-new">📁 СТВОРИТИ →</button>
+                            </div>
+                            <div class="banner-icon-right">🎵🎼</div>
+                        </div>
+                    </div>
+                    <div class="banner-slide">
+                        <div class="banner-bg" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                        <div class="banner-content-new">
+                            <div class="banner-icon-left">🔍</div>
+                            <div class="banner-text">
+                                <span class="banner-tag">✨ НОВИНКИ ЩОДНЯ</span>
+                                <h2>ВІДКРИВАЙ НОВЕ</h2>
+                                <h1>ЩОТИЖНЯ</h1>
+                                <p>Персональні рекомендації та свіжі релізи улюблених виконавців</p>
+                                <button class="banner-btn-new">✨ ДОСЛІДИТИ →</button>
+                            </div>
+                            <div class="banner-icon-right">🎶🎤</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="banner-arrow prev" id="bannerPrev">❮</button>
+                <button class="banner-arrow next" id="bannerNext">❯</button>
+                <div class="banner-dots" id="bannerDots"></div>
+            </div>
+
+            <div class="hero">
+                <div class="hero-artwork" id="heroArtwork">🎵</div>
+                <div class="hero-info">
+                    <div class="now-playing">🎧 ЗАРАЗ ГРАЄ</div>
+                    <h1 id="currentTitle">Виберіть трек</h1>
+                    <p id="currentArtist">--</p>
+                    <div class="hero-buttons">
+                        <button class="play-btn" id="heroPlayBtn">▶ ВІДТВОРИТИ</button>
+                        <button class="like-btn" id="likeBtn">♡</button>
+                    </div>
+                </div>
+            </div>
+            <h2 class="section-title">📀 Всі треки</h2>
+            <div class="songs-grid" id="songsGrid"></div>
+        </div>
+
+        <div id="profilePage" class="page" style="display: none;">
+            <div class="profile-container">
+                <div class="profile-card">
+                    <div class="profile-avatar" id="profileAvatar">👤</div>
+                    <h2 id="profileName">Користувач</h2>
+                    <p id="profileLogin">@username</p>
+                    <p id="profileEmail">email@example.com</p>
+                    <div class="profile-settings">
+                        <h3>Налаштування</h3>
+                        <div class="setting-group">
+                            <label>Змінити ім'я</label>
+                            <input type="text" id="changeNameInput" placeholder="Нове ім'я">
+                            <button class="save-setting-btn" id="saveNameBtn">Зберегти</button>
+                        </div>
+                        <div class="setting-group">
+                            <label>Колір аватарки</label>
+                            <div class="avatar-colors" id="profileColors">
+                                <div class="avatar-color" data-color="#7c3aed" style="background: #7c3aed;"></div>
+                                <div class="avatar-color" data-color="#06b6d4" style="background: #06b6d4;"></div>
+                                <div class="avatar-color" data-color="#10b981" style="background: #10b981;"></div>
+                                <div class="avatar-color" data-color="#f59e0b" style="background: #f59e0b;"></div>
+                                <div class="avatar-color" data-color="#ef4444" style="background: #ef4444;"></div>
+                                <div class="avatar-color" data-color="#f472b6" style="background: #f472b6;"></div>
+                            </div>
+                        </div>
+                        <div class="setting-group">
+                            <label>🎨 Тема сайту</label>
+                            <div class="theme-colors" id="themeColors">
+                                <div class="theme-color active" data-theme="purple" style="background: #7c3aed;"></div>
+                                <div class="theme-color" data-theme="blue" style="background: #3b82f6;"></div>
+                                <div class="theme-color" data-theme="green" style="background: #10b981;"></div>
+                                <div class="theme-color" data-theme="orange" style="background: #f59e0b;"></div>
+                                <div class="theme-color" data-theme="pink" style="background: #ec4899;"></div>
+                                <div class="theme-color" data-theme="red" style="background: #ef4444;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="danger-btn" id="deleteAccountBtnProfile">🗑️ Видалити акаунт</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="playlistsPage" class="page" style="display: none;">
+            <div class="playlists-header">
+                <h2 class="section-title">📁 Мої плейлисти</h2>
+                <div style="display: flex; gap: 10px;">
+                    <button class="create-btn" id="exportPlaylistsBtn" style="background: #10b981;">💾 Експорт</button>
+                    <button class="create-btn" id="importPlaylistsBtn" style="background: #f59e0b;">📂 Імпорт</button>
+                    <button class="create-btn" id="createPlaylistBtn">+ Створити</button>
+                </div>
+            </div>
+            <div id="playlistsGrid" class="playlists-grid"></div>
+        </div>
+
+        <div id="favoritesPage" class="page" style="display: none;">
+            <h2 class="section-title">❤️ Улюблені треки</h2>
+            <div id="favoritesGrid" class="songs-grid"></div>
+        </div>
+
+        <div id="statsPage" class="page" style="display: none;">
+            <h2 class="section-title">📊 Статистика прослуховувань</h2>
+            <div id="statsGrid" class="stats-grid"></div>
+        </div>
+
+        <div id="aboutPage" class="page" style="display: none;">
+            <div class="about-container">
+                <div class="about-card">
+                    <div class="about-logo">🎵 KROKO SOUND</div>
+                    <h1>Про наш проект</h1>
+                    <div class="about-content">
+                        <p><strong>Kroko Sound</strong> - це сучасний веб-музичний плеєр, створений для комфортного прослуховування музики.</p>
+                        <h2>Можливості:</h2>
+                        <ul>
+                            <li>✅ Система реєстрації та входу</li>
+                            <li>✅ Персональне збереження даних</li>
+                            <li>✅ Вибір кольору аватарки</li>
+                            <li>🎵 Музичний плеєр з керуванням</li>
+                            <li>📁 Створення плейлистів</li>
+                            <li>❤️ Збереження улюблених треків</li>
+                            <li>📊 Статистика прослуховувань</li>
+                            <li>🎨 Зміна теми оформлення</li>
+                            <li>🔀 Перемішування треків</li>
+                            <li>💾 Експорт/Імпорт плейлистів</li>
+                            <li>📂 Drag & Drop MP3</li>
+                            <li>🔍 Пошук по треках</li>
+                        </ul>
+                        <h2>Технології:</h2>
+                        <ul>
+                            <li>📄 HTML5</li>
+                            <li>🎨 CSS3 (Flexbox, Grid, Адаптив)</li>
+                            <li>💻 JavaScript (ES6+)</li>
+                            <li>💾 LocalStorage</li>
+                        </ul>
+                    </div>
+                    <footer class="about-footer">
+                        <p>© 2026 Kroko Sound | Створено на курсі WEB PRO</p>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="player">
+        <div class="player-track">
+            <div class="player-artwork" id="playerArtwork">🎵</div>
+            <div class="player-info">
+                <div id="playerTitle" class="player-title">Виберіть трек</div>
+                <div id="playerArtist" class="player-artist">--</div>
+            </div>
+        </div>
+        <div class="player-controls">
+            <button class="ctrl-btn" id="prevBtn">⏮</button>
+            <button class="ctrl-btn play-pause" id="playPauseBtn">▶</button>
+            <button class="ctrl-btn" id="nextBtn">⏭</button>
+            <button class="ctrl-btn" id="shuffleBtn" style="font-size: 16px;">🔀</button>
+        </div>
+        <div class="player-progress">
+            <span id="currentTime">0:00</span>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+                <input type="range" id="progressSlider" value="0" min="0" max="100">
+            </div>
+            <span id="duration">0:00</span>
+        </div>
+        <div class="player-volume">
+            <span>🔊</span>
+            <div class="volume-bar">
+                <div class="volume-fill" id="volumeFill"></div>
+                <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.7">
+            </div>
+        </div>
+        <select id="speedSelect">
+            <option value="0.5">0.5x</option>
+            <option value="0.75">0.75x</option>
+            <option value="1" selected>1x</option>
+            <option value="1.25">1.25x</option>
+            <option value="1.5">1.5x</option>
+            <option value="2">2x</option>
+        </select>
+    </footer>
+</div>
+
+<div id="createPlaylistModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+        <h3>Створити плейлист</h3>
+        <input type="text" id="playlistName" placeholder="Назва плейлиста">
+        <div class="modal-buttons">
+            <button class="save-btn" id="confirmCreateBtn">Створити</button>
+            <button class="cancel-btn" id="closeCreateModalBtn">Скасувати</button>
+        </div>
+    </div>
+</div>
+
+<div id="editPlaylistModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card modal-large">
+        <h3 id="editPlaylistTitle">Редагувати плейлист</h3>
+        <div class="input-group">
+            <label>Назва плейлиста</label>
+            <input type="text" id="editPlaylistName" placeholder="Нова назва">
+        </div>
+        <h4>📀 Пісні в плейлисті</h4>
+        <div id="playlistSongsList" class="songs-list"></div>
+        <h4>➕ Додати пісні</h4>
+        <div id="availableSongsList" class="songs-list"></div>
+        <div class="modal-buttons">
+            <button class="save-btn" id="savePlaylistBtn">💾 Зберегти</button>
+            <button class="danger-btn" id="deletePlaylistBtnModal">🗑️ Видалити плейлист</button>
+            <button class="cancel-btn" id="closeEditModalBtn">❌ Скасувати</button>
+        </div>
+    </div>
+</div>
+
+<audio id="audio"></audio>
+
+<script src="storage.js"></script>
+<script src="auth.js"></script>
+<script src="player.js"></script>
+<script src="playlists.js"></script>
+<script src="main.js"></script>
+
+</body>
+</html>
