@@ -652,15 +652,7 @@ body {
     -ms-overflow-style: none;
 }
 
-@media (max-width: 1200px) {
-    .main-content {
-        padding: 25px;
-    }
-    .banner-carousel {
-        height: 300px;
-    }
-}
-
+/* ========== АДАПТИВНІСТЬ ДЛЯ ПЛАНШЕТІВ ========== */
 @media (max-width: 1024px) {
     .main-content {
         padding: 20px;
@@ -696,15 +688,8 @@ body {
     }
 }
 
+/* ========== АДАПТИВНІСТЬ ДЛЯ ТЕЛЕФОНІВ ========== */
 @media (max-width: 768px) {
-    .main-content {
-        padding: 15px;
-        padding-bottom: 180px;
-    }
-    .section-title {
-        font-size: 20px;
-        margin-bottom: 15px;
-    }
     .top-bar {
         padding: 12px 15px;
         flex-wrap: wrap;
@@ -745,6 +730,14 @@ body {
     .logout-btn {
         padding: 4px 8px;
         font-size: 14px;
+    }
+    .main-content {
+        padding: 15px;
+        padding-bottom: 180px;
+    }
+    .section-title {
+        font-size: 20px;
+        margin-bottom: 15px;
     }
     .hero {
         flex-direction: column;
@@ -814,6 +807,9 @@ body {
         height: 32px;
         font-size: 16px;
     }
+    .player-volume, .player select {
+        display: none;
+    }
 }
 
 @media (max-width: 600px) {
@@ -828,10 +824,37 @@ body {
     }
 }
 
+/* ========== ДУЖЕ МАЛЕНЬКІ ТЕЛЕФОНИ ========== */
 @media (max-width: 480px) {
+    .top-bar {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    .logo {
+        order: 1;
+    }
+    .search-container {
+        order: 3;
+    }
+    .nav-menu {
+        order: 2;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .user-info {
+        order: 4;
+        width: 100%;
+        justify-content: center;
+    }
+    .user-info span {
+        display: inline;
+        font-size: 13px;
+    }
     .main-content {
         padding: 10px;
-        padding-bottom: 160px;
+        padding-bottom: 150px;
     }
     .hero-artwork {
         width: 100px;
@@ -841,23 +864,105 @@ body {
         font-size: 18px;
     }
     .songs-grid {
-        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
         gap: 10px;
     }
     .song-card {
-        padding: 8px;
+        padding: 10px;
     }
     .banner-carousel {
-        height: 260px;
-    }
-    .banner-text h1 {
-        font-size: 18px;
+        height: 200px;
     }
     .banner-text p {
         display: none;
     }
-    .nav-link {
-        padding: 4px 8px;
+    .banner-text h1 {
+        font-size: 16px;
+    }
+    .banner-btn-new {
+        padding: 6px 12px;
+        font-size: 10px;
+    }
+    .player-track {
+        min-width: 100px;
+    }
+    .player-artwork {
+        width: 35px;
+        height: 35px;
+    }
+    .player-title {
         font-size: 11px;
+    }
+    .player-artist {
+        font-size: 9px;
+    }
+    .player-progress {
+        min-width: 120px;
+    }
+    .ctrl-btn {
+        font-size: 16px;
+    }
+    .play-pause {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+    }
+    .time {
+        font-size: 9px;
+    }
+}
+
+@media (max-width: 380px) {
+    .songs-grid {
+        grid-template-columns: 1fr;
+    }
+    .banner-text h1 {
+        font-size: 14px;
+    }
+    .player-track {
+        min-width: 80px;
+    }
+}
+
+/* ========== ГОРИЗОНТАЛЬНА ОРІЄНТАЦІЯ ========== */
+@media (max-width: 900px) and (orientation: landscape) {
+    .main-content {
+        padding-bottom: 120px;
+    }
+    .banner-carousel {
+        height: 160px;
+    }
+    .hero {
+        flex-direction: row;
+    }
+    .hero-artwork {
+        width: 100px;
+        height: 100px;
+    }
+    .songs-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .player {
+        padding: 5px 10px;
+    }
+}
+
+/* ========== ПЛАНШЕТИ (481px - 900px) ========== */
+@media (min-width: 481px) and (max-width: 900px) {
+    .songs-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .banner-carousel {
+        height: 240px;
+    }
+    .banner-text h1 {
+        font-size: 28px;
+    }
+    .hero-artwork {
+        width: 140px;
+        height: 140px;
+    }
+    .hero-info h1 {
+        font-size: 26px;
     }
 }
