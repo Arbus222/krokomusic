@@ -9,10 +9,11 @@
     <link rel="stylesheet" href="player.css">
     <link rel="stylesheet" href="playlists.css">
     <link rel="stylesheet" href="about.css">
+    <link rel="stylesheet" href="responsive.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-
+ 
 <div id="authModal" class="modal-overlay show">
     <div class="auth-card">
         <div class="auth-header">
@@ -79,7 +80,7 @@
         </div>
     </div>
 </div>
-
+ 
 <div id="app" style="display: none;">
     <header class="top-bar">
         <div class="logo" id="logoHome">🎵 KROKO SOUND</div>
@@ -88,19 +89,17 @@
         </div>
         <nav class="nav-menu">
             <a href="#" class="nav-link active" data-page="home">🏠 Головна</a>
-            <a href="#" class="nav-link" data-page="profile">👤 Профіль</a>
             <a href="#" class="nav-link" data-page="playlists">📁 Плейлисти</a>
             <a href="#" class="nav-link" data-page="favorites">❤️ Обране</a>
             <a href="#" class="nav-link" data-page="stats">📊 Статистика</a>
             <a href="#" class="nav-link" data-page="about">📖 Про проект</a>
         </nav>
-        <div class="user-info">
+        <div class="user-info" id="userInfoBtn" style="cursor:pointer;" title="Профіль">
             <div class="avatar" id="userAvatar">👤</div>
             <span id="userName">Користувач</span>
-            <button class="logout-btn" id="logoutBtn">🚪</button>
         </div>
     </header>
-
+ 
     <main class="main-content">
         <div id="homePage" class="page active">
             <div class="banner-carousel" id="bannerCarousel">
@@ -113,7 +112,7 @@
                                 <span class="banner-tag">🎧 НЕОБМЕЖЕНА МУЗИКА</span>
                                 <h2>СЛУХАЙ УЛЮБЛЕНЕ</h2>
                                 <h1>БЕЗКОШТОВНО</h1>
-                                <p>Мільйони треків у твоєму телефоні. Без реклами та підписок</p>
+                                <p>Мільйони треків у твоєму телефоні</p>
                                 <button class="banner-btn-new">🎵 СЛУХАТИ →</button>
                             </div>
                             <div class="banner-icon-right">🎧🎶</div>
@@ -127,7 +126,7 @@
                                 <span class="banner-tag">📁 ТВОРЧІСТЬ</span>
                                 <h2>СТВОРЮЙ ПЛЕЙЛИСТИ</h2>
                                 <h1>ДЛЯ ВСІХ НАСТРОЇВ</h1>
-                                <p>Збирай улюблені треки в свої добірки та ділися з друзями</p>
+                                <p>Збирай улюблені треки в свої добірки</p>
                                 <button class="banner-btn-new">📁 СТВОРИТИ →</button>
                             </div>
                             <div class="banner-icon-right">🎵🎼</div>
@@ -141,7 +140,7 @@
                                 <span class="banner-tag">✨ НОВИНКИ ЩОДНЯ</span>
                                 <h2>ВІДКРИВАЙ НОВЕ</h2>
                                 <h1>ЩОТИЖНЯ</h1>
-                                <p>Персональні рекомендації та свіжі релізи улюблених виконавців</p>
+                                <p>Персональні рекомендації та свіжі релізи</p>
                                 <button class="banner-btn-new">✨ ДОСЛІДИТИ →</button>
                             </div>
                             <div class="banner-icon-right">🎶🎤</div>
@@ -152,7 +151,7 @@
                 <button class="banner-arrow next" id="bannerNext">❯</button>
                 <div class="banner-dots" id="bannerDots"></div>
             </div>
-
+ 
             <div class="hero">
                 <div class="hero-artwork" id="heroArtwork">🎵</div>
                 <div class="hero-info">
@@ -168,7 +167,7 @@
             <h2 class="section-title">📀 Всі треки</h2>
             <div class="songs-grid" id="songsGrid"></div>
         </div>
-
+ 
         <div id="profilePage" class="page" style="display: none;">
             <div class="profile-container">
                 <div class="profile-card">
@@ -177,14 +176,14 @@
                     <p id="profileLogin">@username</p>
                     <p id="profileEmail">email@example.com</p>
                     <div class="profile-settings">
-                        <h3>Налаштування</h3>
+                        <h3>⚙️ Налаштування</h3>
                         <div class="setting-group">
                             <label>Змінити ім'я</label>
                             <input type="text" id="changeNameInput" placeholder="Нове ім'я">
-                            <button class="save-setting-btn" id="saveNameBtn">Зберегти</button>
+                            <button class="save-setting-btn" id="saveNameBtn">💾 Зберегти</button>
                         </div>
                         <div class="setting-group">
-                            <label>Колір аватарки</label>
+                            <label>🎨 Колір аватарки</label>
                             <div class="avatar-colors" id="profileColors">
                                 <div class="avatar-color" data-color="#7c3aed" style="background: #7c3aed;"></div>
                                 <div class="avatar-color" data-color="#06b6d4" style="background: #06b6d4;"></div>
@@ -197,7 +196,7 @@
                         <div class="setting-group">
                             <label>🎨 Тема сайту</label>
                             <div class="theme-colors" id="themeColors">
-                                <div class="theme-color active" data-theme="purple" style="background: #7c3aed;"></div>
+                                <div class="theme-color" data-theme="purple" style="background: #7c3aed;"></div>
                                 <div class="theme-color" data-theme="blue" style="background: #3b82f6;"></div>
                                 <div class="theme-color" data-theme="green" style="background: #10b981;"></div>
                                 <div class="theme-color" data-theme="orange" style="background: #f59e0b;"></div>
@@ -207,12 +206,13 @@
                         </div>
                     </div>
                     <div class="profile-actions">
+                        <button class="logout-btn-profile" id="logoutBtnProfile">🚪 Вийти з акаунту</button>
                         <button class="danger-btn" id="deleteAccountBtnProfile">🗑️ Видалити акаунт</button>
                     </div>
                 </div>
             </div>
         </div>
-
+ 
         <div id="playlistsPage" class="page" style="display: none;">
             <div class="playlists-header">
                 <h2 class="section-title">📁 Мої плейлисти</h2>
@@ -224,47 +224,208 @@
             </div>
             <div id="playlistsGrid" class="playlists-grid"></div>
         </div>
-
+ 
         <div id="favoritesPage" class="page" style="display: none;">
             <h2 class="section-title">❤️ Улюблені треки</h2>
             <div id="favoritesGrid" class="songs-grid"></div>
         </div>
-
+ 
         <div id="statsPage" class="page" style="display: none;">
             <h2 class="section-title">📊 Статистика прослуховувань</h2>
             <div id="statsGrid" class="stats-grid"></div>
         </div>
-
+ 
+        <!-- НОВА СТОРІНКА "ПРО ПРОЕКТ" З ПОВНОЮ ІНФОРМАЦІЄЮ -->
         <div id="aboutPage" class="page" style="display: none;">
             <div class="about-container">
                 <div class="about-card">
                     <div class="about-logo">🎵 KROKO SOUND</div>
                     <h1>Про наш проект</h1>
-                    <div class="about-content">
-                        <p><strong>Kroko Sound</strong> - це сучасний веб-музичний плеєр, створений для комфортного прослуховування музики.</p>
-                        <h2>Можливості:</h2>
-                        <ul>
-                            <li>✅ Система реєстрації та входу</li>
-                            <li>✅ Персональне збереження даних</li>
-                            <li>✅ Вибір кольору аватарки</li>
-                            <li>🎵 Музичний плеєр з керуванням</li>
-                            <li>📁 Створення плейлистів</li>
-                            <li>❤️ Збереження улюблених треків</li>
-                            <li>📊 Статистика прослуховувань</li>
-                            <li>🎨 Зміна теми оформлення</li>
-                            <li>🔀 Перемішування треків</li>
-                            <li>💾 Експорт/Імпорт плейлистів</li>
-                            <li>📂 Drag & Drop MP3</li>
-                            <li>🔍 Пошук по треках</li>
-                        </ul>
-                        <h2>Технології:</h2>
-                        <ul>
-                            <li>📄 HTML5</li>
-                            <li>🎨 CSS3 (Flexbox, Grid, Адаптив)</li>
-                            <li>💻 JavaScript (ES6+)</li>
-                            <li>💾 LocalStorage</li>
-                        </ul>
+                    
+                    <p><strong>Kroko Sound</strong> - це сучасний веб-музичний плеєр, створений для комфортного прослуховування музики. Проект розроблено в рамках курсу WEB PRO.</p>
+                    
+                    <div class="stats-info">
+                        <div class="stat-info-item">
+                            <div class="stat-number">12+</div>
+                            <div class="stat-label">Файлів коду</div>
+                        </div>
+                        <div class="stat-info-item">
+                            <div class="stat-number">3000+</div>
+                            <div class="stat-label">Рядків коду</div>
+                        </div>
+                        <div class="stat-info-item">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Робочих функцій</div>
+                        </div>
                     </div>
+                    
+                    <h2>🎵 Основні можливості</h2>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <div class="feature-icon">👤</div>
+                            <div>
+                                <div class="feature-text">Система користувачів</div>
+                                <div class="feature-desc">Реєстрація, вхід, профіль, видалення акаунту</div>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🎵</div>
+                            <div>
+                                <div class="feature-text">Музичний плеєр</div>
+                                <div class="feature-desc">Play/Pause, Next, Prev, прогрес-бар</div>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🔊</div>
+                            <div>
+                                <div class="feature-text">Гучність та швидкість</div>
+                                <div class="feature-desc">Регулювання звуку та темпу відтворення (0.5x-2x)</div>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">📁</div>
+                            <div>
+                                <div class="feature-text">Плейлисти</div>
+                                <div class="feature-desc">Створення, редагування, видалення, експорт/імпорт JSON</div>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">❤️</div>
+                            <div>
+                                <div class="feature-text">Обране</div>
+                                <div class="feature-desc">Збереження улюблених треків з візуальним сердечком</div>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">📊</div>
+                            <div>
+                                <div class="feature-text">Статистика</div>
+                                <div class="feature-desc">Лічильник прослуховувань для кожного треку</div>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🔀</div>
+                            <div>
+                                <div class="feature-text">Shuffle</div>
+                                <div class="feature-desc">Перемішування треків у випадковому порядку</div>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🔁</div>
+                            <div>
+                                <div class="feature-text">Repeat</div>
+                                <div class="feature-desc">Повторення одного треку по колу</div>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🎨</div>
+                            <div>
+                                <div class="feature-text">Зміна теми</div>
+                                <div class="feature-desc">6 кольорових схем (фіолетова, синя, зелена, оранжева, рожева, червона)</div>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🔍</div>
+                            <div>
+                                <div class="feature-text">Пошук</div>
+                                <div class="feature-desc">Фільтрація треків за назвою або артистом</div>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">💾</div>
+                            <div>
+                                <div class="feature-text">Експорт/Імпорт</div>
+                                <div class="feature-desc">Збереження та завантаження плейлистів у JSON форматі</div>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">📂</div>
+                            <div>
+                                <div class="feature-text">Drag & Drop</div>
+                                <div class="feature-desc">Перетягування MP3 файлів для додавання в бібліотеку</div>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">⌨️</div>
+                            <div>
+                                <div class="feature-text">Гарячі клавіші</div>
+                                <div class="feature-desc">Пробіл (пауза), стрілки (перемикання), ↑↓ (гучність)</div>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">📱</div>
+                            <div>
+                                <div class="feature-text">Адаптивний дизайн</div>
+                                <div class="feature-desc">Коректне відображення на ПК, планшетах та телефонах</div>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🎭</div>
+                            <div>
+                                <div class="feature-text">Хвильова анімація</div>
+                                <div class="feature-desc">Візуалізація музики під час відтворення</div>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🔄</div>
+                            <div>
+                                <div class="feature-text">Нещодавно прослухані</div>
+                                <div class="feature-desc">Історія останніх 15 треків</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h2>🛠️ Технології</h2>
+                    <div class="tech-stack">
+                        <span class="tech-item">📄 HTML5</span>
+                        <span class="tech-item">🎨 CSS3</span>
+                        <span class="tech-item">💻 JavaScript (ES6+)</span>
+                        <span class="tech-item">💾 LocalStorage</span>
+                        <span class="tech-item">🎨 Web Audio API</span>
+                        <span class="tech-item">🎨 Flexbox</span>
+                        <span class="tech-item">📐 Grid</span>
+                        <span class="tech-item">📱 Адаптивний дизайн</span>
+                        <span class="tech-item">🎭 CSS Анімації</span>
+                    </div>
+                    
+                    <h2>📁 Структура проекту</h2>
+                    <div class="tech-stack">
+                        <span class="tech-item">index.html</span>
+                        <span class="tech-item">about.html</span>
+                        <span class="tech-item">common.css</span>
+                        <span class="tech-item">auth.css</span>
+                        <span class="tech-item">player.css</span>
+                        <span class="tech-item">playlists.css</span>
+                        <span class="tech-item">about.css</span>
+                        <span class="tech-item">storage.js</span>
+                        <span class="tech-item">auth.js</span>
+                        <span class="tech-item">player.js</span>
+                        <span class="tech-item">playlists.js</span>
+                        <span class="tech-item">main.js</span>
+                    </div>
+                    
+                    <h2>⌨️ Гарячі клавіші</h2>
+                    <div class="tech-stack">
+                        <span class="tech-item">␣ Пробіл - Play/Pause</span>
+                        <span class="tech-item">← Стрілка вліво - Попередній трек</span>
+                        <span class="tech-item">→ Стрілка вправо - Наступний трек</span>
+                        <span class="tech-item">↑ Стрілка вгору - Гучніше</span>
+                        <span class="tech-item">↓ Стрілка вниз - Тихіше</span>
+                    </div>
+                    
+                    <h2>🎨 Теми оформлення</h2>
+                    <div class="tech-stack">
+                        <span class="tech-item">🟣 Purple</span>
+                        <span class="tech-item">🔵 Blue</span>
+                        <span class="tech-item">🟢 Green</span>
+                        <span class="tech-item">🟠 Orange</span>
+                        <span class="tech-item">🩷 Pink</span>
+                        <span class="tech-item">🔴 Red</span>
+                    </div>
+                    
+                    <h2>👨‍💻 Про проект</h2>
+                    <p>Проект виконаний у рамках курсу <strong>WEB PRO</strong>. Всі функції реалізовані самостійно з використанням сучасних веб-технологій. Kroko Sound — це повноцінний веб-музичний плеєр з можливістю створення плейлистів, збереження улюблених треків, статистикою прослуховувань та персоналізацією інтерфейсу.</p>
+                    
                     <footer class="about-footer">
                         <p>© 2026 Kroko Sound | Створено на курсі WEB PRO</p>
                     </footer>
@@ -272,7 +433,7 @@
             </div>
         </div>
     </main>
-
+ 
     <footer class="player">
         <div class="player-track">
             <div class="player-artwork" id="playerArtwork">🎵</div>
@@ -280,39 +441,50 @@
                 <div id="playerTitle" class="player-title">Виберіть трек</div>
                 <div id="playerArtist" class="player-artist">--</div>
             </div>
-        </div>
-        <div class="player-controls">
-            <button class="ctrl-btn" id="prevBtn">⏮</button>
-            <button class="ctrl-btn play-pause" id="playPauseBtn">▶</button>
-            <button class="ctrl-btn" id="nextBtn">⏭</button>
-            <button class="ctrl-btn" id="shuffleBtn" style="font-size: 16px;">🔀</button>
-        </div>
-        <div class="player-progress">
-            <span id="currentTime">0:00</span>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-                <input type="range" id="progressSlider" value="0" min="0" max="100">
-            </div>
-            <span id="duration">0:00</span>
-        </div>
-        <div class="player-volume">
-            <span>🔊</span>
-            <div class="volume-bar">
-                <div class="volume-fill" id="volumeFill"></div>
-                <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.7">
+            <button class="player-like-small" id="playerLikeBtn">♡</button>
+            <div class="wave-animation" id="waveAnimation" style="display: none;">
+                <span></span><span></span><span></span><span></span><span></span><span></span>
             </div>
         </div>
-        <select id="speedSelect">
-            <option value="0.5">0.5x</option>
-            <option value="0.75">0.75x</option>
-            <option value="1" selected>1x</option>
-            <option value="1.25">1.25x</option>
-            <option value="1.5">1.5x</option>
-            <option value="2">2x</option>
-        </select>
+ 
+        <div class="player-center">
+            <div class="player-controls">
+                <button class="ctrl-btn small-ctrl" id="shuffleBtn" title="Перемішати">🔀</button>
+                <button class="ctrl-btn" id="prevBtn" title="Попередній">⏮</button>
+                <button class="ctrl-btn play-pause" id="playPauseBtn" title="Грати/Пауза">▶</button>
+                <button class="ctrl-btn" id="nextBtn" title="Наступний">⏭</button>
+                <button class="ctrl-btn small-ctrl" id="repeatBtn" title="Повторювати" style="font-size:14px;">🔁</button>
+            </div>
+            <div class="player-progress">
+                <span id="currentTime">0:00</span>
+                <div class="progress-bar" id="progressBarTrack">
+                    <div class="progress-fill" id="progressFill"></div>
+                    <input type="range" id="progressSlider" value="0" min="0" max="100">
+                </div>
+                <span id="duration">0:00</span>
+            </div>
+        </div>
+ 
+        <div class="player-right">
+            <div class="player-volume">
+                <span class="volume-icon">🔊</span>
+                <div class="volume-bar">
+                    <div class="volume-fill" id="volumeFill"></div>
+                    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.7">
+                </div>
+            </div>
+            <select id="speedSelect" title="Швидкість">
+                <option value="0.5">0.5x</option>
+                <option value="0.75">0.75x</option>
+                <option value="1" selected>1x</option>
+                <option value="1.25">1.25x</option>
+                <option value="1.5">1.5x</option>
+                <option value="2">2x</option>
+            </select>
+        </div>
     </footer>
 </div>
-
+ 
 <div id="createPlaylistModal" class="modal-overlay" style="display: none;">
     <div class="modal-card">
         <h3>Створити плейлист</h3>
@@ -323,7 +495,7 @@
         </div>
     </div>
 </div>
-
+ 
 <div id="editPlaylistModal" class="modal-overlay" style="display: none;">
     <div class="modal-card modal-large">
         <h3 id="editPlaylistTitle">Редагувати плейлист</h3>
@@ -342,14 +514,14 @@
         </div>
     </div>
 </div>
-
+ 
 <audio id="audio"></audio>
-
+ 
 <script src="storage.js"></script>
 <script src="auth.js"></script>
 <script src="player.js"></script>
 <script src="playlists.js"></script>
 <script src="main.js"></script>
-
+ 
 </body>
 </html>

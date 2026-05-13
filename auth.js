@@ -1,5 +1,3 @@
-// ========== ЛОГІКА АВТОРИЗАЦІЇ ==========
-
 let currentUser = null;
 let users = [];
 
@@ -9,125 +7,125 @@ function getSelectedAvatarColor() {
 }
 
 function registerUser() {
-    const name = document.getElementById('regName').value.trim();
-    const login = document.getElementById('regLogin').value.trim();
-    const email = document.getElementById('regEmail').value.trim();
+    const name     = document.getElementById('regName').value.trim();
+    const login    = document.getElementById('regLogin').value.trim();
+    const email    = document.getElementById('regEmail').value.trim();
     const password = document.getElementById('regPassword').value;
-    const confirm = document.getElementById('regConfirm').value;
-    
+    const confirm  = document.getElementById('regConfirm').value;
+
     if (!name || !login || !email || !password) {
-        alert('❌ Заповніть всі поля!');
-        return;
+        showToast('❌ Заповніть всі поля!', 'error'); return;
     }
     if (password !== confirm) {
-        alert('❌ Паролі не співпадають!');
-        return;
+        showToast('❌ Паролі не співпадають!', 'error'); return;
     }
     if (password.length < 4) {
-        alert('❌ Пароль має бути не менше 4 символів!');
-        return;
+        showToast('❌ Пароль має бути не менше 4 символів!', 'error'); return;
     }
     if (users.find(u => u.login === login)) {
-        alert('❌ Логін вже існує!');
-        return;
+        showToast('❌ Логін вже існує!', 'error'); return;
     }
     if (users.find(u => u.email === email)) {
-        alert('❌ Email вже існує!');
-        return;
+        showToast('❌ Email вже існує!', 'error'); return;
     }
-    
+
     const newUser = {
-        id: Date.now(),
-        name: name,
-        login: login,
-        email: email,
-        password: password,
-        avatarColor: getSelectedAvatarColor()
+        id: Date.now(), name, login, email, password,
+        avatarColor: getSelectedAvatarColor(),
+        avatarPhoto: null,
+        theme: 'purple'
     };
-    
+
     users.push(newUser);
-    saveUsers(users);
+    if (typeof saveUsers === 'function') saveUsers(users);
     currentUser = newUser;
-    saveCurrentUser(currentUser);
-    
-    alert('✅ Реєстрація успішна!');
-    location.reload();
+    if (typeof saveCurrentUser === 'function') saveCurrentUser(currentUser);
+    showToast('✅ Реєстрація успішна!', 'success');
+    setTimeout(() => location.reload(), 800);
 }
 
 function loginUser() {
     const loginInput = document.getElementById('loginInput').value.trim();
-    const password = document.getElementById('passwordInput').value;
-    
+    const password   = document.getElementById('passwordInput').value;
+
     if (!loginInput || !password) {
-        alert('❌ Введіть логін/email та пароль!');
-        return;
+        showToast('❌ Введіть логін/email та пароль!', 'error'); return;
     }
-    
     const user = users.find(u => (u.login === loginInput || u.email === loginInput) && u.password === password);
-    
     if (user) {
         currentUser = user;
-        saveCurrentUser(currentUser);
-        alert('✅ Вхід виконано!');
-        location.reload();
+        if (typeof saveCurrentUser === 'function') saveCurrentUser(currentUser);
+        showToast('✅ Вхід виконано!', 'success');
+        setTimeout(() => location.reload(), 600);
     } else {
-        alert('❌ Невірний логін/email або пароль!');
+        showToast('❌ Невірний логін/email або пароль!', 'error');
     }
 }
 
 function logout() {
-    if (confirm('Вийти?')) {
-        removeCurrentUser();
+    if (confirm('Вийти з акаунту?')) {
+        if (typeof removeCurrentUser === 'function') removeCurrentUser();
         location.reload();
     }
 }
 
 function deleteAccount() {
-    if (confirm('Видалити акаунт?')) {
+    if (confirm('❗ Видалити акаунт? Всі дані будуть втрачені!')) {
         users = users.filter(u => u.id !== currentUser.id);
-        saveUsers(users);
-        clearUserData(currentUser.id);
-        removeCurrentUser();
-        alert('✅ Акаунт видалено!');
-        location.reload();
+        if (typeof saveUsers === 'function') saveUsers(users);
+        if (typeof clearUserData === 'function') clearUserData(currentUser.id);
+        if (typeof removeCurrentUser === 'function') removeCurrentUser();
+        showToast('Акаунт видалено', 'info');
+        setTimeout(() => location.reload(), 600);
     }
 }
 
 function updateWelcomeScreen() {
-    const userAvatar = document.getElementById('userAvatar');
-    const userName = document.getElementById('userName');
+    if (!currentUser) return;
+
+    const userAvatar    = document.getElementById('userAvatar');
+    const userName      = document.getElementById('userName');
     const profileAvatar = document.getElementById('profileAvatar');
-    const profileName = document.getElementById('profileName');
-    const profileLogin = document.getElementById('profileLogin');
-    const profileEmail = document.getElementById('profileEmail');
-    
-    if (userAvatar && currentUser) {
-        userAvatar.style.background = currentUser.avatarColor;
-        userAvatar.innerText = currentUser.name.charAt(0).toUpperCase();
+    const profileName   = document.getElementById('profileName');
+    const profileLogin  = document.getElementById('profileLogin');
+    const profileEmail  = document.getElementById('profileEmail');
+
+    const letter = currentUser.name.charAt(0).toUpperCase();
+
+    // Top bar avatar
+    if (userAvatar) {
+        userAvatar.style.background = currentUser.avatarPhoto ? 'transparent' : currentUser.avatarColor;
+        userAvatar.innerHTML = currentUser.avatarPhoto
+            ? `<img src="${currentUser.avatarPhoto}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
+            : letter;
     }
-    if (userName && currentUser) userName.innerText = currentUser.name;
-    if (profileAvatar && currentUser) {
-        profileAvatar.style.background = currentUser.avatarColor;
-        profileAvatar.innerText = currentUser.name.charAt(0).toUpperCase();
+    if (userName) userName.innerText = currentUser.name;
+
+    // Profile avatar
+    if (profileAvatar) {
+        profileAvatar.style.background = currentUser.avatarPhoto ? 'transparent' : currentUser.avatarColor;
+        profileAvatar.innerHTML = currentUser.avatarPhoto
+            ? `<img src="${currentUser.avatarPhoto}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
+            : letter;
     }
-    if (profileName && currentUser) profileName.innerText = currentUser.name;
-    if (profileLogin && currentUser) profileLogin.innerText = '@' + currentUser.login;
-    if (profileEmail && currentUser) profileEmail.innerText = currentUser.email;
+    if (profileName)  profileName.innerText  = currentUser.name;
+    if (profileLogin) profileLogin.innerText  = '@' + currentUser.login;
+    if (profileEmail) profileEmail.innerText  = currentUser.email;
 }
 
-function checkAuthAndRender() {
-    const authModal = document.getElementById('authModal');
-    const app = document.getElementById('app');
-    
-    if (currentUser) {
-        if (authModal) authModal.style.display = 'none';
-        if (app) app.style.display = 'block';
-        updateWelcomeScreen();
-        if (typeof initPlayer === 'function') {
-            initPlayer();
-        }
-    } else {
-        if (authModal) authModal.style.display = 'flex';
-        if (app) app.style.display = 'none';
+// Show toast even before player.js runs (auth modal context)
+function showToast(message, type = 'info') {
+    let container = document.getElementById('toastContainer');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toastContainer';
+        document.body.appendChild(container);
     }
+    const icons = { success:'✅', error:'❌', info:'ℹ️', warning:'⚠️' };
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `<span class="toast-icon">${icons[type]||'ℹ️'}</span><span class="toast-msg">${message}</span><div class="toast-progress"></div>`;
+    toast.addEventListener('click', () => { toast.classList.add('hiding'); setTimeout(() => toast.remove(), 300); });
+    container.appendChild(toast);
+    setTimeout(() => { toast.classList.add('hiding'); setTimeout(() => toast.remove(), 300); }, 3000);
 }

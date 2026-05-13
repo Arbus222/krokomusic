@@ -1,189 +1,371 @@
+/* ========== SPOTIFY-STYLE PLAYER (НИЖНІЙ ХУД) ========== */
 .player {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(10, 10, 20, 0.98);
-    backdrop-filter: blur(20px);
-    border-top: 1px solid var(--border-light);
-    padding: 12px 24px;
-    display: flex;
+    background: var(--player-bg, rgba(60, 10, 120, 0.35));
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border-top: 1px solid var(--player-border, rgba(124, 58, 237, 0.3));
+    padding: 0 20px;
+    height: 90px;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
     align-items: center;
-    justify-content: space-between;
-    gap: 15px;
-    flex-wrap: wrap;
-    z-index: 100;
+    gap: 8px;
+    z-index: 200;
+    transition: background 0.4s ease, border-color 0.4s ease;
 }
 
+/* Градієнтна лінія зверху (під тему) */
+.player::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+    opacity: 0.8;
+}
+
+/* Легке світіння знизу */
+.player::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 60px;
+    background: radial-gradient(ellipse 60% 100% at 50% 100%, var(--player-glow, rgba(124, 58, 237, 0.12)), transparent);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ЛІВА ЧАСТИНА — інформація про трек */
 .player-track {
     display: flex;
     align-items: center;
     gap: 12px;
-    min-width: 180px;
+    min-width: 0;
 }
 
 .player-artwork {
-    width: 45px;
-    height: 45px;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.1);
+    width: 52px;
+    height: 52px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.08);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 22px;
+    flex-shrink: 0;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s;
 }
+.player-artwork:hover { transform: scale(1.05); }
+.player-artwork img { width:100%; height:100%; object-fit:cover; border-radius:8px; }
 
+.player-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: 3px;
+}
 .player-title {
     font-weight: 600;
-    font-size: 14px;
+    font-size: 13px;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
 }
-
+.player-title:hover { text-decoration: underline; }
 .player-artist {
-    font-size: 12px;
-    color: var(--text-gray);
+    font-size: 11px;
+    color: rgba(255,255,255,0.55);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+.player-artist:hover { color: #ccc; text-decoration: underline; }
+
+.player-like-small {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.5);
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px;
+    flex-shrink: 0;
+    transition: color 0.2s, transform 0.2s;
+}
+.player-like-small:hover { color: #fff; transform: scale(1.15); }
+.player-like-small.liked { color: #1db954; }
+
+/* ЦЕНТР — кнопки та прогрес */
+.player-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
 }
 
 .player-controls {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 4px;
 }
 
 .ctrl-btn {
     background: none;
     border: none;
-    color: white;
-    font-size: 22px;
-    cursor: pointer;
-    padding: 8px;
-    transition: 0.3s;
-}
-
-.ctrl-btn:hover {
-    transform: scale(1.1);
-    color: var(--primary-color);
-}
-
-.play-pause {
-    background: var(--primary-color);
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
+    color: rgba(255,255,255,0.6);
     font-size: 18px;
-}
-
-.play-pause:hover {
-    background: var(--primary-hover);
-    transform: scale(1.05);
-    color: white;
-}
-
-.player-progress {
-    flex: 1;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    transition: color 0.15s, transform 0.15s, background 0.15s;
     display: flex;
     align-items: center;
-    gap: 10px;
-    min-width: 200px;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+}
+.ctrl-btn:hover {
+    color: #fff;
+    transform: scale(1.1);
+    background: rgba(255,255,255,0.08);
+}
+.ctrl-btn.active { color: var(--primary-color) !important; }
+
+.play-pause {
+    background: #fff !important;
+    color: #000 !important;
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 50% !important;
+    font-size: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: transform 0.15s, background 0.15s !important;
+    flex-shrink: 0;
+    margin: 0 4px;
+}
+.play-pause:hover {
+    transform: scale(1.08) !important;
+    background: #e8e8e8 !important;
 }
 
+.ctrl-btn.small-ctrl { font-size: 14px; width: 28px; height: 28px; }
+
+/* Прогрес-бар */
+.player-progress {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 500px;
+}
+.player-progress span {
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    min-width: 36px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
 .progress-bar {
     flex: 1;
     position: relative;
-    height: 5px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 5px;
+    height: 4px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 2px;
+    cursor: pointer;
 }
-
+.progress-bar:hover { height: 5px; }
+.progress-bar:hover .progress-fill { background: var(--primary-color); }
 .progress-fill {
     position: absolute;
     height: 100%;
-    background: var(--primary-color);
-    border-radius: 5px;
+    background: rgba(255,255,255,0.75);
+    border-radius: 2px;
     width: 0%;
+    transition: background 0.15s;
+    pointer-events: none;
 }
-
-.progress-bar input {
+.progress-bar input[type=range] {
     position: absolute;
     width: 100%;
     height: 100%;
     opacity: 0;
     cursor: pointer;
+    margin: 0;
+    padding: 0;
+}
+
+/* ПРАВА ЧАСТИНА — гучність + швидкість */
+.player-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-end;
 }
 
 .player-volume {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 }
-
+.volume-icon {
+    color: rgba(255,255,255,0.5);
+    font-size: 15px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.volume-icon:hover { color: #fff; }
 .volume-bar {
     position: relative;
     width: 80px;
-    height: 5px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 5px;
+    height: 4px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 2px;
+    cursor: pointer;
 }
-
+.volume-bar:hover .volume-fill { background: var(--primary-color); }
 .volume-fill {
     position: absolute;
     height: 100%;
-    background: var(--primary-color);
-    border-radius: 5px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 2px;
     width: 70%;
+    pointer-events: none;
+    transition: background 0.15s;
 }
-
-.volume-bar input {
+.volume-bar input[type=range] {
     position: absolute;
     width: 100%;
     height: 100%;
     opacity: 0;
     cursor: pointer;
+    margin: 0;
+    padding: 0;
 }
 
-.player select {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid var(--border-light);
-    color: white;
-    padding: 6px 12px;
-    border-radius: 8px;
+/* Speed select — красивий випадаючий список */
+.speed-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+#speedSelect {
+    appearance: none;
+    -webkit-appearance: none;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #aaa;
+    padding: 5px 24px 5px 10px;
+    border-radius: 20px;
     cursor: pointer;
+    font-size: 11px;
+    font-weight: 600;
+    transition: all 0.2s;
+    outline: none;
+    letter-spacing: 0.3px;
+    min-width: 58px;
 }
+#speedSelect:hover {
+    border-color: rgba(255,255,255,0.25);
+    color: #fff;
+    background: rgba(255,255,255,0.1);
+}
+#speedSelect:focus {
+    border-color: var(--primary-color);
+    color: #fff;
+    background: rgba(124,58,237,0.15);
+}
+#speedSelect option {
+    background: #1a1a2e;
+    color: white;
+}
+.speed-wrapper::after {
+    content: '▾';
+    position: absolute;
+    right: 8px;
+    color: #666;
+    font-size: 10px;
+    pointer-events: none;
+    transition: color 0.2s;
+}
+.speed-wrapper:hover::after { color: #aaa; }
 
+/* Кнопка черги (queue) */
+.queue-toggle-btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.5);
+    font-size: 16px;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+.queue-toggle-btn:hover { color: #fff; background: rgba(255,255,255,0.05); }
+.queue-toggle-btn.active { color: var(--primary-color) !important; }
+
+/* Хвильова анімація */
+.wave-animation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    height: 20px;
+    margin-left: 4px;
+}
+.wave-animation span {
+    width: 3px;
+    height: 6px;
+    background: var(--primary-color);
+    border-radius: 2px;
+    transition: height 0.08s ease;
+}
+.wave-animation.active span {
+    animation: waveMove 0.6s ease infinite alternate;
+}
+@keyframes waveMove {
+    0% { height: 4px; }
+    100% { height: 18px; }
+}
+.wave-animation.active span:nth-child(1) { animation-delay: 0s; }
+.wave-animation.active span:nth-child(2) { animation-delay: 0.1s; }
+.wave-animation.active span:nth-child(3) { animation-delay: 0.2s; }
+.wave-animation.active span:nth-child(4) { animation-delay: 0.3s; }
+.wave-animation.active span:nth-child(5) { animation-delay: 0.4s; }
+.wave-animation.active span:nth-child(6) { animation-delay: 0.5s; }
+
+/* Адаптивність для маленьких екранів */
 @media (max-width: 768px) {
     .player {
-        padding: 10px;
-        gap: 10px;
+        grid-template-columns: 1fr auto;
+        grid-template-rows: auto auto;
+        height: auto;
+        padding: 10px 12px;
+        gap: 6px;
     }
-    .player-volume, .player select {
-        display: none;
-    }
-    .player-progress {
-        min-width: 150px;
-    }
-    .player-track {
-        min-width: 140px;
-    }
+    .player-right { display: none; }
+    .player-center { grid-column: 1 / -1; order: -1; }
+    .player-progress { max-width: 100%; }
+    .wave-animation { display: none; }
+    .ctrl-btn.small-ctrl { display: none; }
 }
-
-
-
-.song-cover img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;  /* обрізає картинку під розмір */
-    border-radius: 14px;
-}
-
-.hero-artwork img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 20px;
-}
-
-.player-artwork img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
+@media (max-width: 480px) {
+    .player-artwork { width: 38px; height: 38px; }
+    .player-title { font-size: 12px; }
+    .player-artist { font-size: 10px; }
+    .ctrl-btn { width: 28px; height: 28px; font-size: 16px; }
+    .play-pause { width: 32px !important; height: 32px !important; font-size: 13px !important; }
 }
